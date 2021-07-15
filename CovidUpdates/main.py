@@ -51,7 +51,7 @@ elif first_line[18:20] == today:
       old_line = fi.readline()
 
 old_line = ast.literal_eval(old_line)
-print(f"Data: {color.YELLOW}{r_dict['data']}{color.END}")
+print(f"Data: {color.BOLD + color.YELLOW}{r_dict['data']}{color.END}")
 print(f"Ricoverati con sintomi: {color.CYAN}{r_dict['ricoverati_con_sintomi']}{color.END} Differenza: {color.CYAN}{int(r_dict['ricoverati_con_sintomi']) - int(old_line['ricoverati_con_sintomi'])}{color.END}")
 print(f"Terapia intensiva: {color.BLUE}{r_dict['terapia_intensiva']}{color.END} Differenza: {color.BLUE}{int(r_dict['terapia_intensiva']) - int(old_line['terapia_intensiva'])}{color.END}")
 print(f"Isolamento domiciliare: {color.DARKCYAN}{r_dict['isolamento_domiciliare']}{color.END} Differenza: {color.DARKCYAN}{int(r_dict['isolamento_domiciliare']) - int(old_line['isolamento_domiciliare'])}{color.END}")
