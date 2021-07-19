@@ -34,16 +34,10 @@ first_line = str(r_dict)
 
 with open('new_data.txt', 'r+') as new:
    with open('old_data.txt', 'r+') as old:
-         if (first_line[18:20] == today):
-            for back_lines in new:
-               old.seek(0)
-               old.write(re.sub(r"<string>ABC</string>(\s+)<string>(.*)</string>", r"<xyz>ABC</xyz>\1<xyz>\2</xyz>", back_lines))
-               old.truncate()
-               old_line = old.readline()
-               old_line = ast.literal_eval(old_line)
-            new.seek(0)
-            new.write(re.sub(r"<string>ABC</string>(\s+)<string>(.*)</string>", r"<xyz>ABC</xyz>\1<xyz>\2</xyz>", first_line))
-            new.truncate()
+      old_line = old.readline()
+      if (first_line[18:20] == today):
+         if (int(old_line[18:20]) == (int(today) - 1)):
+            old_line = ast.literal_eval(old_line)
             print(f"{color.BOLD + color.GREEN}DATI AGGIORNATI AD OGGI!{color.END}")
             print(f"Data: {color.BOLD + color.YELLOW}{r_dict['data']}{color.END}")
             print(f"Ricoverati con sintomi: {color.CYAN}{r_dict['ricoverati_con_sintomi']}{color.END} Differenza: {color.CYAN}{int(r_dict['ricoverati_con_sintomi']) - int(old_line['ricoverati_con_sintomi'])}{color.END}")
@@ -62,9 +56,16 @@ with open('new_data.txt', 'r+') as new:
             old.close()
             new.close()
          else:
-            old_line = old.readline()
+            for back_lines in new:
+               old.seek(0)
+               old.write(re.sub(r"<string>ABC</string>(\s+)<string>(.*)</string>", r"<xyz>ABC</xyz>\1<xyz>\2</xyz>", back_lines))
+               old.truncate()
+            new.seek(0)
+            new.write(re.sub(r"<string>ABC</string>(\s+)<string>(.*)</string>", r"<xyz>ABC</xyz>\1<xyz>\2</xyz>", first_line))
+            new.truncate()
+            old_line = back_lines
             old_line = ast.literal_eval(old_line)
-            print(f"{color.BOLD + color.RED}DATI NON AGGIORNATI AD OGGI!{color.END}")
+            print(f"{color.BOLD + color.GREEN}DATI AGGIORNATI AD OGGI!{color.END}")
             print(f"Data: {color.BOLD + color.YELLOW}{r_dict['data']}{color.END}")
             print(f"Ricoverati con sintomi: {color.CYAN}{r_dict['ricoverati_con_sintomi']}{color.END} Differenza: {color.CYAN}{int(r_dict['ricoverati_con_sintomi']) - int(old_line['ricoverati_con_sintomi'])}{color.END}")
             print(f"Terapia intensiva: {color.BLUE}{r_dict['terapia_intensiva']}{color.END} Differenza: {color.BLUE}{int(r_dict['terapia_intensiva']) - int(old_line['terapia_intensiva'])}{color.END}")
@@ -81,3 +82,23 @@ with open('new_data.txt', 'r+') as new:
             print(f"Tamponi test antigenico rapido: {color.RED}{r_dict['tamponi_test_antigenico_rapido']}{color.END} Differenza: {color.RED}{int(r_dict['tamponi_test_antigenico_rapido']) - int(old_line['tamponi_test_antigenico_rapido'])}{color.END}")
             old.close()
             new.close()
+      else:
+         old_line = old.readline()
+         old_line = ast.literal_eval(old_line)
+         print(f"{color.BOLD + color.RED}DATI NON AGGIORNATI AD OGGI!{color.END}")
+         print(f"Data: {color.BOLD + color.YELLOW}{r_dict['data']}{color.END}")
+         print(f"Ricoverati con sintomi: {color.CYAN}{r_dict['ricoverati_con_sintomi']}{color.END} Differenza: {color.CYAN}{int(r_dict['ricoverati_con_sintomi']) - int(old_line['ricoverati_con_sintomi'])}{color.END}")
+         print(f"Terapia intensiva: {color.BLUE}{r_dict['terapia_intensiva']}{color.END} Differenza: {color.BLUE}{int(r_dict['terapia_intensiva']) - int(old_line['terapia_intensiva'])}{color.END}")
+         print(f"Isolamento domiciliare: {color.DARKCYAN}{r_dict['isolamento_domiciliare']}{color.END} Differenza: {color.DARKCYAN}{int(r_dict['isolamento_domiciliare']) - int(old_line['isolamento_domiciliare'])}{color.END}")
+         print(f"Totale positivi: {color.PURPLE}{r_dict['totale_positivi']}{color.END} Differenza: {color.PURPLE}{int(r_dict['totale_positivi']) - int(old_line['totale_positivi'])}{color.END}")
+         print(f"Dimessi guariti: {color.GREEN}{r_dict['dimessi_guariti']}{color.END} Differenza: {color.GREEN}{int(r_dict['dimessi_guariti']) - int(old_line['dimessi_guariti'])}{color.END}")
+         print(f"Deceduti: {color.RED}{r_dict['deceduti']}{color.END} Differenza: {color.RED}{int(r_dict['deceduti']) - int(old_line['deceduti'])}{color.END}")
+         print(f"Totale casi: {color.RED}{r_dict['totale_casi']}{color.END} Differenza: {color.RED}{int(r_dict['totale_casi']) - int(old_line['totale_casi'])}{color.END}")
+         print(f"Tamponi: {color.RED}{r_dict['tamponi']}{color.END} Differenza: {color.RED}{int(r_dict['tamponi']) - int(old_line['tamponi'])}{color.END}")
+         print(f"Casi testati: {color.RED}{r_dict['casi_testati']}{color.END} Differenza: {color.RED}{int(r_dict['casi_testati']) - int(old_line['casi_testati'])}{color.END}")
+         print(f"Totale positivi test molecolare {color.RED}{r_dict['totale_positivi_test_molecolare']}{color.END} Differenza: {color.RED}{int(r_dict['totale_positivi_test_molecolare']) - int(old_line['totale_positivi_test_molecolare'])}{color.END}")
+         print(f"Totale positivi test antigenico rapido: {color.RED}{r_dict['totale_positivi_test_antigenico_rapido']}{color.END} Differenza: {color.RED}{int(r_dict['totale_positivi_test_antigenico_rapido']) - int(old_line['totale_positivi_test_antigenico_rapido'])}{color.END}")
+         print(f"Tamponi test molecolare: {color.RED}{r_dict['tamponi_test_molecolare']}{color.END} Differenza: {color.RED}{int(r_dict['tamponi_test_molecolare']) - int(old_line['tamponi_test_molecolare'])}{color.END}")
+         print(f"Tamponi test antigenico rapido: {color.RED}{r_dict['tamponi_test_antigenico_rapido']}{color.END} Differenza: {color.RED}{int(r_dict['tamponi_test_antigenico_rapido']) - int(old_line['tamponi_test_antigenico_rapido'])}{color.END}")
+         old.close()
+         new.close()
