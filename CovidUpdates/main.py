@@ -83,7 +83,6 @@ with open('new_data.txt', 'r+') as new:
             old.close()
             new.close()
       else:
-         old_line = old.readline()
          old_line = ast.literal_eval(old_line)
          print(f"{color.BOLD + color.RED}DATI NON AGGIORNATI AD OGGI!{color.END}")
          print(f"Data: {color.BOLD + color.YELLOW}{r_dict['data']}{color.END}")
