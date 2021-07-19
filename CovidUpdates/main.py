@@ -24,9 +24,6 @@ today = datetime.date.today()
 today = str(today)
 today = today[8:10]
 
-hour = datetime.datetime.today().hour
-limit_hour = 17
-
 r = requests.get('https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale-latest.json')
 
 r_dict = r.json()
